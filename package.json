@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/brandonhorst/event-intercept.git"
+    "url": "https://github.com/brandonhorst/events-intercept.git"
   },
   "keywords": [
     "event",
@@ -24,9 +24,9 @@
   "author": "@brandonhorst",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/brandonhorst/event-intercept/issues"
+    "url": "https://github.com/brandonhorst/events-intercept/issues"
   },
-  "homepage": "https://github.com/brandonhorst/event-intercept",
+  "homepage": "https://github.com/brandonhorst/events-intercept",
   "dependencies": {
     "async": "^0.9.0",
     "lodash": "^2.4.1"

@@ -1,0 +1,40 @@
+{
+  "name": "events-intercept",
+  "version": "0.0.0",
+  "description": "event interceptors - like middleware for EventEmitter",
+  "main": "lib/events-intercept.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brandonhorst/event-intercept.git"
+  },
+  "keywords": [
+    "event",
+    "events",
+    "emit",
+    "intercept",
+    "tap",
+    "hook",
+    "report",
+    "mutate",
+    "EventEmitter"
+  ],
+  "author": "@brandonhorst",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brandonhorst/event-intercept/issues"
+  },
+  "homepage": "https://github.com/brandonhorst/event-intercept",
+  "dependencies": {
+    "async": "^0.9.0",
+    "lodash": "^2.4.1"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "chai-spies": "^0.5.1",
+    "gulp": "^3.8.2",
+    "mocha": "^1.20.1"
+  }
+}

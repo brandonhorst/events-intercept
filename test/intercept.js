@@ -4,7 +4,7 @@ var chai = require('chai'),
 	events = require('events');
 
 chai.use(require('chai-spies'));
-chai.config.includeStack = true
+chai.config.includeStack = true;
 
 describe('event-intercept', function() {
 	it('intercepts an event with a single interceptor', function(done) {
@@ -16,7 +16,7 @@ describe('event-intercept', function() {
 			expect(interceptor).to.have.been.called.once;
 			expect(arg).to.equal('newValue');
 			done();
-		}
+		};
 
 		interceptor = chai.spy(function(arg, done) {
 			expect(arg).to.equal('value');
@@ -34,14 +34,16 @@ describe('event-intercept', function() {
 		var emitter = new eventsIntercept.EventEmitter(),
 			handler,
 			interceptor1,
-			interceptor2;
+			interceptor2,
+			interceptor3;
 
 		handler = function(arg) {
 			expect(interceptor1).to.have.been.called.once;
 			expect(interceptor2).to.have.been.called.once;
+			expect(interceptor3).to.have.been.called.once;
 			expect(arg).to.equal('finalValue');
 			done();
-		}
+		};
 		
 		interceptor1 = chai.spy(function(arg, done) {
 			expect(arg).to.equal('value');
@@ -51,6 +53,11 @@ describe('event-intercept', function() {
 		interceptor2 = chai.spy(function(arg, arg2, done) {
 			expect(arg).to.equal('secondValue');
 			expect(arg2).to.equal('anotherValue');
+			done(null, 'thirdValue');
+		});
+
+		interceptor3 = chai.spy(function(arg, done) {
+			expect(arg).to.equal('thirdValue');
 			done(null, 'finalValue');
 		});
 
@@ -59,6 +66,7 @@ describe('event-intercept', function() {
 		.on('test', handler)
 		.intercept('test', interceptor1)
 		.intercept('test', interceptor2)
+		.intercept('test', interceptor3)
 		.emit('test', 'value');
 	});
 
@@ -124,7 +132,7 @@ describe('event-intercept', function() {
 			expect(interceptor).to.have.been.called.once;
 			expect(arg).to.equal('newValue');
 			done();
-		}
+		};
 
 		interceptor = chai.spy(function(arg, done) {
 			expect(arg).to.equal('value');
@@ -137,6 +145,48 @@ describe('event-intercept', function() {
 		.on('test', handler)
 		.intercept('test', interceptor)
 		.emit('test', 'value');
+	});
+
+	it('behaves as before for events without interceptors', function(done) {
+		var emitter = new eventsIntercept.EventEmitter(),
+			handler;
+
+		handler = function(arg) {
+			expect(arg).to.equal('value');
+			done();
+		};
+		
+		emitter
+		.on('test', handler)
+		.emit('test', 'value');
+	});
+
+	it('throws for interceptors that are not functions', function() {
+		var emitter = new eventsIntercept.EventEmitter(),
+			interceptCall;
+
+		interceptCall = function() {
+			emitter.intercept('test', 'not a function');
+		};
+
+		expect(interceptCall).to.throw(Error);
+	});
+
+	it('emits newInterceptor for new interceptors', function(done) {
+		var emitter = new eventsIntercept.EventEmitter(),
+			interceptor = chai.spy(),
+			newInterceptorCall;
+
+		newInterceptorCall = function(event, interceptor) {
+			expect(event).to.equal('test');
+			expect(interceptor).to.equal(interceptor);
+			expect(interceptor).to.not.have.been.called;
+			done()
+		}
+
+		emitter
+		.on('newInterceptor', newInterceptorCall)
+		.intercept('test', interceptor);
 
 	});
 });

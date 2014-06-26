@@ -1,8 +1,13 @@
-#event-intercept
+#`event-intercept`
 
-The node [EventEmitter](http://nodejs.org/api/events.html) is very powerful. However, at times it could be valuable to intercept events before they reach their handlers. This is what event-intercept allows for.
+The node [EventEmitter](http://nodejs.org/api/events.html) is very powerful. However, at times it could be valuable to intercept events before they reach their handlers, to modify the data, or emit other events. That's a job for `event-intercept`.
 
-#Standalone Usage
+##Status
+
+[![Build Status](https://travis-ci.org/brandonhorst/events-intercept.svg?branch=master)](https://travis-ci.org/brandonhorst/events-intercept)
+[![Coverage Status](https://coveralls.io/repos/brandonhorst/events-intercept/badge.png?branch=master)](https://coveralls.io/r/brandonhorst/events-intercept?branch=master)
+
+##Standalone Usage
 
 The module contains a constructor, `EventEmitter`, which inherits from the standard node `events.EventEmitter`.
 
@@ -47,7 +52,7 @@ Here's that sample code all together. Of course, `intercept` supports proper fun
 
 Please see `test/intercept.js` for more complete samples.
 
-#Calling Separate Events
+##Calling Separate Events
 
 There may be times when you want to intercept one event and call another. Luckily, all `intercept` handlers are called with the `EventEmitter` as the `this` context, so you can `emit` events yourself.
 
@@ -71,7 +76,7 @@ In fact, an `intercept`or do not need to call the callback at all, which means t
 	});
 	//emits 'otherData' and 'thirdData' but not 'data'
 
-#Patching
+##Patching
 
 Of course, many EventEmitters that you have the pleasure of using will not have the foresight to use `event-intercept`. Thankfully, Javascript is awesome, it's possible to monkey patch the interception capabilities onto an existing object. Just call
 
@@ -94,6 +99,16 @@ Now, you should be able to call `intercept` on the standard `EventEmitter`.
 
 This is also shown in `test/intercept.js`.
 
-#Development
+##Development
 
-If you find bugs or have questions, please open [Github](https://github.com/brandonhorst/events-intercept) issues. Find me on twitter at [@brandonhorst](https://twitter.com/brandonhorst).
+Things that should still be added:
+
+* The ability to list all interceptors for a specific event (`interceptors`)
+* The ability to remove interceptors (`removeInterceptor`)
+	- This should emit `removeInterceptor`
+* Warn on `intercept` at a specific number of interceptors (10)
+	- This should be set by `setMaxInterceptors`
+* Performance optimization (some fancy magic with `arguments` to avoid significant penalties in the most common cases)
+* Removal of `async` dependency (I'm find with keeping `lodash`)
+
+If you want to fix any of these things, go ahead and submit a [pull request](https://github.com/brandonhorst/events-intercept). If you find bugs or have questions, please open [Github](https://github.com/brandonhorst/events-intercept) issues. Find me on twitter at [@brandonhorst](https://twitter.com/brandonhorst).

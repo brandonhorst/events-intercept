@@ -1,6 +1,6 @@
 {
   "name": "events-intercept",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "event interceptors - like middleware for EventEmitter",
   "main": "lib/events-intercept.js",
   "scripts": {

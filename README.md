@@ -76,6 +76,18 @@ In fact, an `intercept`or do not need to call the callback at all, which means t
 	});
 	//emits 'otherData' and 'thirdData' but not 'data'
 
+##Utilities
+
+`events-intercept` supports all of the useful utilities that the standard `EventEmitter` supports:
+
+* `interceptors(type)` returns an array of all interceptors (functions) for the given type.
+* `removeInterceptor(type, interceptor)` removes an interceptor of a given type. You must pass in the interceptor function.
+* `removeAllInterceptors(type)` removes all interceptors for a given type.
+* `removeAllInterceptors()` removes all interceptors. Will remove the `removeInterceptor` event last, so they will all get triggered.
+* the EventEmitter will throw a warning if more than 10 interceptors are added to a single event, as this could represent a memory leak. `setMaxInterceptors(n)` allows you to change that. Set it to 0 for no limit.
+
+All of these are demonstrated in the tests.
+
 ##Patching
 
 Of course, many EventEmitters that you have the pleasure of using will not have the foresight to use `event-intercept`. Thankfully, Javascript is awesome, it's possible to monkey patch the interception capabilities onto an existing object. Just call
@@ -101,14 +113,10 @@ This is also shown in `test/intercept.js`.
 
 ##Development
 
-Things that should still be added:
+This package is tested pretty thoroughly, and the interface won't be changing anymore. And I plan on actively maintaining it if anything comes up.
 
-* The ability to list all interceptors for a specific event (`interceptors`)
-* The ability to remove interceptors (`removeInterceptor`)
-	- This should emit `removeInterceptor`
-* Warn on `intercept` at a specific number of interceptors (10)
-	- This should be set by `setMaxInterceptors`
+Things that could still be added:
+
 * Performance optimization (some fancy magic with `arguments` to avoid significant penalties in the most common cases)
-* Removal of `async` dependency (I'm find with keeping `lodash`)
 
-If you want to fix any of these things, go ahead and submit a [pull request](https://github.com/brandonhorst/events-intercept). If you find bugs or have questions, please open [Github](https://github.com/brandonhorst/events-intercept) issues. Find me on twitter at [@brandonhorst](https://twitter.com/brandonhorst).
+If you find bugs or have questions, please open [Github](https://github.com/brandonhorst/events-intercept) issues. Find me on twitter at [@brandonhorst](https://twitter.com/brandonhorst).

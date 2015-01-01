@@ -21,13 +21,13 @@ In our application, we have an object that will emit a `data` event, and pass it
 It is very easy to listen for this event and handle it
 
 	emitter.on('data', function(arg) {
-		console.log(arg); 
+		console.log(arg);
 	}); //logs 'myData'
 
 However, we want to intercept that event and modify the data. We can do that by setting an `interceptor` with `intercept(event, interceptor)`. It is passed all arguments that would be passed to the emitter, as well as a standard node callback. In this case, let's just add a prefix on to the data.
 
 	emitter.intercept('data', function(arg, done) {
-		done(null, 'intercepted ' + arg);
+		return done(null, 'intercepted ' + arg);
 	});
 
 This code will be executed before the handler, and the new argument will be passed on to the handler appropriately.
@@ -44,9 +44,9 @@ Here's that sample code all together. Of course, `intercept` supports proper fun
 
 	emitter
 	.on('data', function(arg) {
-		console.log(arg); 
+		console.log(arg);
 	}).intercept('data', function(arg, done) {
-		done(null, 'intercepted ' + arg);
+		return done(null, 'intercepted ' + arg);
 	}).emit('data', 'myData');
 	//logs 'intercepted myData'
 
@@ -60,7 +60,7 @@ There may be times when you want to intercept one event and call another. Luckil
 		this
 		.emit('otherData')
 		.emit('thirdData');
-		done(null);
+		return done(null);
 	});
 	//emits 'data', 'otherData', and 'thirdData'
 
@@ -68,7 +68,7 @@ Remember, `emit`ting an event that you are `intercept`ing will cause a loop, so 
 
 In fact, an `intercept`or do not need to call the callback at all, which means that the event that was `intercept`ed will never be called at all.
 
-	
+
 	emitter.intercept('data', function(done) {
 		this
 		.emit('otherData')
@@ -101,10 +101,10 @@ Of course, many EventEmitters that you have the pleasure of using will not have 
 
 	emitter
 	.on('data', function(arg) {
-		console.log(arg); 
+		console.log(arg);
 	}).intercept('data', function(arg, done) {
-		done(null, 'intercepted ' + arg);
-	}) .emit('data', 'myData');
+		return done(null, 'intercepted ' + arg);
+	}).emit('data', 'myData');
 	//logs 'intercepted myData'
 
 Now, you should be able to call `intercept` on the standard `EventEmitter`.

@@ -4,9 +4,9 @@
   "description": "event interceptors - like middleware for EventEmitter",
   "main": "lib/events-intercept.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha test",
-    "posttest": "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "test": "mocha test",
+    "posttest": "istanbul cover _mocha -- -R spec",
+    "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -30,13 +30,11 @@
   },
   "homepage": "https://github.com/brandonhorst/events-intercept",
   "devDependencies": {
-    "chai": "^1.9.1",
-    "chai-spies": "^0.5.1",
-    "coveralls": "^2.10.1",
-    "gulp": "^3.8.2",
-    "istanbul": "^0.2.12",
-    "mocha": "^1.20.1",
-    "sinon": "^1.10.2",
-    "sinon-chai": "^2.5.0"
+    "chai": "^1.10.0",
+    "coveralls": "^2.11.2",
+    "istanbul": "^0.3.5",
+    "mocha": "^2.1.0",
+    "sinon": "^1.12.2",
+    "sinon-chai": "^2.6.0"
   }
 }

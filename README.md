@@ -1,18 +1,22 @@
-#`event-intercept`
-
-The node [EventEmitter](http://nodejs.org/api/events.html) is very powerful. However, at times it could be valuable to intercept events before they reach their handlers, to modify the data, or emit other events. That's a job for `event-intercept`.
-
-##Status
+#`events-intercept`
 
 [![Build Status](https://travis-ci.org/brandonhorst/events-intercept.svg?branch=master)](https://travis-ci.org/brandonhorst/events-intercept)
 [![Coverage Status](https://coveralls.io/repos/brandonhorst/events-intercept/badge.png?branch=master)](https://coveralls.io/r/brandonhorst/events-intercept?branch=master)
+
+The node [EventEmitter](http://nodejs.org/api/events.html) is very powerful. However, at times it could be valuable to intercept events before they reach their handlers, to modify the data, or emit other events. That's a job for `event-intercept`.
+
+##Installation
+
+```sh
+npm install events-intercept
+```
 
 ##Standalone Usage
 
 The module contains a constructor, `EventEmitter`, which inherits from the standard node `events.EventEmitter`.
 
-	var eventsIntercept = require('events-intercept');
-	var emitter = new eventsIntercept.EventEmitter();
+	var EventEmitter = require('events-intercept').EventEmitter;
+	var emitter = new EventEmitter();
 
 In our application, we have an object that will emit a `data` event, and pass it a single argument.
 
@@ -110,13 +114,3 @@ Of course, many EventEmitters that you have the pleasure of using will not have 
 Now, you should be able to call `intercept` on the standard `EventEmitter`.
 
 This is also shown in `test/intercept.js`.
-
-##Development
-
-This package is tested pretty thoroughly, and the interface won't be changing anymore. And I plan on actively maintaining it if anything comes up.
-
-Things that could still be added:
-
-* Performance optimization (some fancy magic with `arguments` to avoid significant penalties in the most common cases)
-
-If you find bugs or have questions, please open [Github](https://github.com/brandonhorst/events-intercept) issues. Find me on twitter at [@brandonhorst](https://twitter.com/brandonhorst).
